@@ -1,0 +1,1675 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MDT | Flashing Lights RP</title>
+    <style>
+        :root {
+            --primary: #e67e22;
+            --primary-dark: #d35400;
+            --secondary: #e74c3c;
+            --accent: #3498db;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --success: #2ecc71;
+            --warning: #f39c12;
+            --danger: #e74c3c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .status-bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        .status-icon {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .online {
+            background-color: var(--success);
+        }
+
+        .offline {
+            background-color: var(--danger);
+        }
+
+        .tabs {
+            display: flex;
+            background-color: var(--dark);
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: white;
+            transition: all 0.3s;
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .tab.active {
+            background-color: var(--primary);
+            font-weight: bold;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 20px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .history-list {
+            margin-top: 20px;
+        }
+
+        .protocol-card {
+            background-color: white;
+            border-left: 4px solid var(--primary);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .protocol-card.police {
+            border-left-color: var(--accent);
+        }
+
+        .protocol-card.medical {
+            border-left-color: var(--success);
+        }
+
+        .protocol-card.fire {
+            border-left-color: var(--danger);
+        }
+
+        .protocol-info {
+            flex: 1;
+        }
+
+        .protocol-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .protocol-date {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .protocol-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background-color: white;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .close-modal {
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .protocol-details {
+            margin-top: 15px;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .detail-label {
+            width: 150px;
+            font-weight: bold;
+            color: var(--dark);
+        }
+
+        .detail-value {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1 0 auto;
+                text-align: center;
+            }
+
+            .protocol-card {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .protocol-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .detail-row {
+                flex-direction: column;
+            }
+
+            .detail-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">MDT | Flashing Lights RP</div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="status-icon online"></div>
+                    <span>Онлайн</span>
+                </div>
+                <div class="status-item">
+                    <span>Протоколов: <span id="total-protocols">0</span></span>
+                </div>
+                <div class="status-item">
+                    <span>Сегодня: <span id="today-protocols">0</span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="tabs container">
+        <div class="tab active" data-tab="home">Главная</div>
+        <div class="tab" data-tab="police">Полиция</div>
+        <div class="tab" data-tab="medical">Скорая помощь</div>
+        <div class="tab" data-tab="fire">Пожарные</div>
+        <div class="tab" data-tab="database">База данных</div>
+        <div class="tab" data-tab="history">История протоколов</div>
+    </div>
+
+    <div class="container">
+        <!-- Главная -->
+        <div id="home" class="tab-content active">
+            <h2>Главная панель</h2>
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div class="stat-label">Полицейские протоколы</div>
+                    <div class="stat-value" id="police-stats">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Медицинские протоколы</div>
+                    <div class="stat-value" id="medical-stats">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Пожарные протоколы</div>
+                    <div class="stat-value" id="fire-stats">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Активные вызовы</div>
+                    <div class="stat-value" id="active-calls">0</div>
+                </div>
+            </div>
+
+            <h3>Последние события</h3>
+            <div class="history-list" id="recent-events"></div>
+        </div>
+
+        <!-- Полиция -->
+        <div id="police" class="tab-content">
+            <h2>Полицейский протокол</h2>
+            <form id="police-form">
+                <div class="form-group">
+                    <label>Дата</label>
+                    <input type="date" id="police-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Время</label>
+                    <input type="time" id="police-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Место остановки (улица / район / GPS)</label>
+                    <input type="text" id="police-location" required>
+                </div>
+                <div class="form-group">
+                    <label>Позывной / Юнит</label>
+                    <input type="text" id="police-unit" required>
+                </div>
+                <div class="form-group">
+                    <label>Причина остановки</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-speed">
+                            <label for="police-reason-speed">Превышение скорости</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-aggressive">
+                            <label for="police-reason-aggressive">Агрессивное вождение</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-no-stop">
+                            <label for="police-reason-no-stop">Не остановка по требованию</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-no-seatbelt">
+                            <label for="police-reason-no-seatbelt">Отсутствие ремня безопасности</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-no-license">
+                            <label for="police-reason-no-license">Отсутствие прав</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-no-insurance">
+                            <label for="police-reason-no-insurance">Отсутствие страховки</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-dui">
+                            <label for="police-reason-dui">Вождение в нетрезвом виде</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-suspicious">
+                            <label for="police-reason-suspicious">Подозрительное поведение</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-vehicle-defect">
+                            <label for="police-reason-vehicle-defect">Неисправность ТС</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="police-reason-other">
+                            <label for="police-reason-other">Другое</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Данные водителя</h3>
+                <div class="form-group">
+                    <label>ФИО</label>
+                    <input type="text" id="driver-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <input type="date" id="driver-birthdate" required>
+                </div>
+                <div class="form-group">
+                    <label>№ водительского удостоверения</label>
+                    <input type="text" id="driver-license" required>
+                </div>
+                <div class="form-group">
+                    <label>Статус прав</label>
+                    <select id="driver-license-status" required>
+                        <option value="valid">Действительные</option>
+                        <option value="suspended">Приостановлены</option>
+                        <option value="expired">Истёк срок</option>
+                        <option value="none">Отсутствуют</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Адрес проживания</label>
+                    <input type="text" id="driver-address" required>
+                </div>
+
+                <h3>Данные транспортного средства</h3>
+                <div class="form-group">
+                    <label>Марка / Модель</label>
+                    <input type="text" id="vehicle-model" required>
+                </div>
+                <div class="form-group">
+                    <label>Цвет</label>
+                    <input type="text" id="vehicle-color" required>
+                </div>
+                <div class="form-group">
+                    <label>Гос. номер</label>
+                    <input type="text" id="vehicle-plate" required>
+                </div>
+                <div class="form-group">
+                    <label>Регистрация</label>
+                    <select id="vehicle-registration" required>
+                        <option value="valid">Действительная</option>
+                        <option value="expired">Просрочена</option>
+                        <option value="none">Отсутствует</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Страховка</label>
+                    <select id="vehicle-insurance" required>
+                        <option value="valid">Действительная</option>
+                        <option value="expired">Просрочена</option>
+                        <option value="none">Отсутствует</option>
+                    </select>
+                </div>
+
+                <h3>Нарушение</h3>
+                <div class="form-group">
+                    <label>Нарушенные статьи / код</label>
+                    <input type="text" id="violation-code" required>
+                </div>
+                <div class="form-group">
+                    <label>Краткое описание нарушения</label>
+                    <textarea id="violation-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Заметки офицера</label>
+                    <textarea id="officer-notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Фото/видеофиксация</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="evidence-photo">
+                            <label for="evidence-photo">Есть</label>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>Принятые меры</h3>
+                <div class="form-group">
+                    <label>Штраф</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fine-given">
+                            <label for="fine-given">Да</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="fine-amount">Сумма:</label>
+                            <input type="number" id="fine-amount" style="width: 100px;" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Предупреждение</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="warning-verbal">
+                            <label for="warning-verbal">Устное</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="warning-written">
+                            <label for="warning-written">Письменное</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Арест</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="arrest-given">
+                            <label for="arrest-given">Да</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="arrest-charge">Статья/обвинение:</label>
+                            <input type="text" id="arrest-charge" style="width: 200px;" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                  <label>Эвакуация ТС</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="tow-given">
+                            <label for="tow-given">Да</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="tow-service">Служба:</label>
+                            <input type="text" id="tow-service" style="width: 200px;" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Сохранить протокол</button>
+                    <button type="reset" class="btn-secondary">Очистить форму</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Скорая помощь -->
+        <div id="medical" class="tab-content">
+            <h2>Медицинский протокол</h2>
+            <form id="medical-form">
+                <div class="form-group">
+                    <label>Дата</label>
+                    <input type="date" id="medical-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Время</label>
+                    <input type="time" id="medical-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Место вызова</label>
+                    <input type="text" id="medical-location" required>
+                </div>
+                <div class="form-group">
+                    <label>Позывной / Юнит</label>
+                    <input type="text" id="medical-unit" required>
+                </div>
+                <div class="form-group">
+                    <label>Тип вызова</label>
+                    <select id="medical-call-type" required>
+                        <option value="accident">ДТП</option>
+                        <option value="gunshot">Огнестрельное ранение</option>
+                        <option value="cut">Колото-резаное ранение</option>
+                        <option value="fracture">Перелом</option>
+                        <option value="burn">Ожог</option>
+                        <option value="heart-attack">Сердечный приступ</option>
+                        <option value="stroke">Инсульт</option>
+                        <option value="poisoning">Отравление</option>
+                        <option value="drowning">Утопление</option>
+                        <option value="allergy">Аллергическая реакция</option>
+                        <option value="respiratory">Дыхательная недостаточность</option>
+                        <option value="psych">Псих. расстройство</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+
+                <h3>Данные пациента</h3>
+                <div class="form-group">
+                    <label>ФИО</label>
+                    <input type="text" id="patient-name" required>
+                </div>
+                <div class="form-group">
+                    <label>Дата рождения</label>
+                    <input type="date" id="patient-birthdate" required>
+                </div>
+                <div class="form-group">
+                    <label>Адрес проживания</label>
+                    <input type="text" id="patient-address">
+                </div>
+                <div class="form-group">
+                    <label>Состояние пациента</label>
+                    <select id="patient-condition" required>
+                        <option value="stable">Стабильное</option>
+                        <option value="serious">Тяжёлое</option>
+                        <option value="critical">Критическое</option>
+                        <option value="deceased">Летальный исход</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Диагноз</label>
+                    <textarea id="patient-diagnosis" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Проведённые мероприятия</label>
+                    <textarea id="medical-procedures" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Госпитализация</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="hospitalization-given">
+                            <label for="hospitalization-given">Да</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="hospital-name">Мед. учреждение:</label>
+                            <input type="text" id="hospital-name" style="width: 200px;" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Использованные медикаменты</label>
+                    <textarea id="medical-drugs"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Сохранить протокол</button>
+                    <button type="reset" class="btn-secondary">Очистить форму</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Пожарные -->
+        <div id="fire" class="tab-content">
+            <h2>Пожарный протокол</h2>
+            <form id="fire-form">
+                <div class="form-group">
+                    <label>Дата</label>
+                    <input type="date" id="fire-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Время</label>
+                    <input type="time" id="fire-time" required>
+                </div>
+                <div class="form-group">
+                    <label>Место вызова</label>
+                    <input type="text" id="fire-location" required>
+                </div>
+                <div class="form-group">
+                    <label>Позывной / Юнит</label>
+                    <input type="text" id="fire-unit" required>
+                </div>
+                <div class="form-group">
+                    <label>Тип вызова</label>
+                    <select id="fire-call-type" required>
+                        <option value="fire">Пожар</option>
+                        <option value="car-fire">Возгорание ТС</option>
+                        <option value="building-fire">Пожар в здании</option>
+                        <option value="forest-fire">Лесной пожар</option>
+                        <option value="explosion">Взрыв</option>
+                        <option value="gas-leak">Утечка газа</option>
+                        <option value="hazmat">Опасные материалы</option>
+                        <option value="rescue">Спасение</option>
+                        <option value="flood">Наводнение</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+
+                <h3>Детали вызова</h3>
+                <div class="form-group">
+                    <label>Описание ситуации</label>
+                    <textarea id="fire-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Принятые меры</label>
+                    <textarea id="fire-actions" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Использованная техника</label>
+                    <input type="text" id="fire-equipment" required>
+                </div>
+                <div class="form-group">
+                    <label>Пострадавшие</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fire-casualties">
+                            <label for="fire-casualties">Есть</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="casualties-count">Количество:</label>
+                            <input type="number" id="casualties-count" style="width: 100px;" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Погибшие</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="fire-fatalities">
+                            <label for="fire-fatalities">Есть</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <label for="fatalities-count">Количество:</label>
+                            <input type="number" id="fatalities-count" style="width: 100px;" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Причина возгорания</label>
+                    <select id="fire-cause">
+                        <option value="unknown">Не установлена</option>
+                        <option value="electrical">Электричество</option>
+                        <option value="gas">Газ</option>
+                        <option value="arson">Поджог</option>
+                        <option value="smoking">Курение</option>
+                        <option value="chemical">Химическая реакция</option>
+                        <option value="natural">Природные причины</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn-primary">Сохранить протокол</button>
+                    <button type="reset" class="btn-secondary">Очистить форму</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- База данных -->
+        <div id="database" class="tab-content">
+            <h2>База данных</h2>
+            <div class="search-bar">
+                <input type="text" id="database-search" class="search-input" placeholder="Поиск по ФИО, номеру лицензии или гос. номеру...">
+            </div>
+            <div class="history-list" id="database-results"></div>
+        </div>
+
+        <!-- История протоколов -->
+        <div id="history" class="tab-content">
+            <h2>История протоколов</h2>
+            <div class="search-bar">
+                <input type="text" id="history-search" class="search-input" placeholder="Поиск по типу, дате или ключевым словам...">
+            </div>
+            <div class="form-group">
+                <label>Фильтр по типу:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-police" checked>
+                        <label for="filter-police">Полиция (🚓)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-medical" checked>
+                        <label for="filter-medical">Медики (🚑)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="filter-fire" checked>
+                        <label for="filter-fire">Пожарные (🚒)</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button id="clear-history" class="btn-danger">Очистить всю историю</button>
+            </div>
+            <div class="history-list" id="protocol-history"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно просмотра протокола -->
+    <div id="protocol-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Детали протокола</div>
+                <div class="close-modal">&times;</div>
+            </div>
+            <div class="protocol-details" id="protocol-details"></div>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация приложения
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация хранилища
+            if (!localStorage.getItem('protocols')) {
+                localStorage.setItem('protocols', JSON.stringify([]));
+            }
+
+            // Инициализация вкладок
+            initTabs();
+
+            // Инициализация форм
+            initPoliceForm();
+            initMedicalForm();
+            initFireForm();
+
+            // Инициализация базы данных
+            initDatabase();
+
+            // Инициализация истории
+            initHistory();
+
+            // Обновление статистики
+            updateStats();
+
+            // Загрузка последних событий
+            loadRecentEvents();
+        });
+
+        // Функции для работы с вкладками
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Удаляем активный класс у всех вкладок и контента
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей вкладке и соответствующему контенту
+                    this.classList.add('active');
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        }
+
+        // Функции для полицейской формы
+        function initPoliceForm() {
+            const form = document.getElementById('police-form');
+            
+            // Включение/отключение полей в зависимости от чекбоксов
+            document.getElementById('fine-given').addEventListener('change', function() {
+                document.getElementById('fine-amount').disabled = !this.checked;
+            });
+            
+            document.getElementById('arrest-given').addEventListener('change', function() {
+                document.getElementById('arrest-charge').disabled = !this.checked;
+            });
+            
+            document.getElementById('tow-given').addEventListener('change', function() {
+                document.getElementById('tow-service').disabled = !this.checked;
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Сбор данных формы
+                const protocol = {
+                    type: 'police',
+                    date: document.getElementById('police-date').value,
+                    time: document.getElementById('police-time').value,
+                    location: document.getElementById('police-location').value,
+                    unit: document.getElementById('police-unit').value,
+                    reasons: {
+                        speed: document.getElementById('police-reason-speed').checked,
+                        aggressive: document.getElementById('police-reason-aggressive').checked,
+                        noStop: document.getElementById('police-reason-no-stop').checked,
+                        noSeatbelt: document.getElementById('police-reason-no-seatbelt').checked,
+                        noLicense: document.getElementById('police-reason-no-license').checked,
+                        noInsurance: document.getElementById('police-reason-no-insurance').checked,
+                        dui: document.getElementById('police-reason-dui').checked,
+                        suspicious: document.getElementById('police-reason-suspicious').checked,
+                        vehicleDefect: document.getElementById('police-reason-vehicle-defect').checked,
+                        other: document.getElementById('police-reason-other').checked
+                    },
+                    driver: {
+                        name: document.getElementById('driver-name').value,
+                        birthdate: document.getElementById('driver-birthdate').value,
+                        license: document.getElementById('driver-license').value,
+                        licenseStatus: document.getElementById('driver-license-status').value,
+                        address: document.getElementById('driver-address').value
+                    },
+                    vehicle: {
+                        model: document.getElementById('vehicle-model').value,
+                        color: document.getElementById('vehicle-color').value,
+                        plate: document.getElementById('vehicle-plate').value,
+                        registration: document.getElementById('vehicle-registration').value,
+                        insurance: document.getElementById('vehicle-insurance').value
+                    },
+                    violation: {
+                        code: document.getElementById('violation-code').value,
+                        description: document.getElementById('violation-description').value,
+                        officerNotes: document.getElementById('officer-notes').value,
+                        photoEvidence: document.getElementById('evidence-photo').checked
+                    },
+                    actions: {
+                        fine: {
+                            given: document.getElementById('fine-given').checked,
+                            amount: document.getElementById('fine-amount').value
+                        },
+                        warning: {
+                            verbal: document.getElementById('warning-verbal').checked,
+                            written: document.getElementById('warning-written').checked
+                        },
+                        arrest: {
+                            given: document.getElementById('arrest-given').checked,
+                            charge: document.getElementById('arrest-charge').value
+                        },
+                        tow: {
+                            given: document.getElementById('tow-given').checked,
+                            service: document.getElementById('tow-service').value
+                        }
+                    },
+                    timestamp: new Date().getTime()
+                };
+                
+                // Сохранение протокола
+                saveProtocol(protocol);
+                
+                // Очистка формы
+                form.reset();
+                
+                // Обновление статистики
+                updateStats();
+                loadRecentEvents();
+                
+                // Показ уведомления
+                alert('Полицейский протокол успешно сохранён!');
+            });
+        }
+
+        // Функции для медицинской формы
+        function initMedicalForm() {
+            const form = document.getElementById('medical-form');
+            
+            // Включение/отключение полей в зависимости от чекбоксов
+            document.getElementById('hospitalization-given').addEventListener('change', function() {
+                document.getElementById('hospital-name').disabled = !this.checked;
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Сбор данных формы
+                const protocol = {
+                    type: 'medical',
+                    date: document.getElementById('medical-date').value,
+                    time: document.getElementById('medical-time').value,
+                  location: document.getElementById('fire-location').value,
+                    unit: document.getElementById('fire-unit').value,
+                    callType: document.getElementById('fire-call-type').value,
+                    description: document.getElementById('fire-description').value,
+                    actions: document.getElementById('fire-actions').value,
+                    equipment: document.getElementById('fire-equipment').value,
+                    cause: document.getElementById('fire-cause').value,
+                    casualties: {
+                        present: document.getElementById('fire-casualties').checked,
+                        count: document.getElementById('casualties-count').value
+                    },
+                    fatalities: {
+                        present: document.getElementById('fire-fatalities').checked,
+                        count: document.getElementById('fatalities-count').value
+                    },
+                    timestamp: new Date().getTime()
+                };
+                
+                // Сохранение протокола
+                saveProtocol(protocol);
+                
+                // Очистка формы
+                form.reset();
+                
+                // Обновление статистики
+                updateStats();
+                loadRecentEvents();
+                
+                // Показ уведомления
+                alert('Пожарный протокол успешно сохранён!');
+            });
+        }
+
+        // Функции для работы с базой данных
+        function initDatabase() {
+            const searchInput = document.getElementById('database-search');
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                const protocols = JSON.parse(localStorage.getItem('protocols'));
+                
+                if (query.length < 2) {
+                    document.getElementById('database-results').innerHTML = '<p>Введите минимум 2 символа для поиска</p>';
+                    return;
+                }
+                
+                const results = protocols.filter(protocol => {
+                    if (protocol.type === 'police') {
+                        return (
+                            protocol.driver.name.toLowerCase().includes(query) ||
+                            protocol.driver.license.toLowerCase().includes(query) ||
+                            protocol.vehicle.plate.toLowerCase().includes(query)
+                        );
+                    } else if (protocol.type === 'medical') {
+                        return protocol.patient.name.toLowerCase().includes(query);
+                    } else if (protocol.type === 'fire') {
+                        return protocol.location.toLowerCase().includes(query);
+                    }
+                    return false;
+                });
+                
+                displayDatabaseResults(results);
+            });
+        }
+        
+        function displayDatabaseResults(results) {
+            const container = document.getElementById('database-results');
+            
+            if (results.length === 0) {
+                container.innerHTML = '<p>Ничего не найдено</p>';
+                return;
+            }
+            
+            let html = '';
+            results.forEach(protocol => {
+                let title, details, icon;
+                
+                if (protocol.type === 'police') {
+                    icon = '🚓';
+                    title = `Полицейский протокол: ${protocol.driver.name}`;
+                    details = `ТС: ${protocol.vehicle.model}, ${protocol.vehicle.color}, ${protocol.vehicle.plate}`;
+                } else if (protocol.type === 'medical') {
+                    icon = '🚑';
+                    title = `Медицинский протокол: ${protocol.patient.name}`;
+                    details = `Состояние: ${getConditionText(protocol.patient.condition)}`;
+                } else if (protocol.type === 'fire') {
+                    icon = '🚒';
+                    title = `Пожарный протокол: ${protocol.callType}`;
+                    details = `Место: ${protocol.location}`;
+                }
+                
+                html += `
+                    <div class="protocol-card ${protocol.type}">
+                        <div class="protocol-info">
+                            <div class="protocol-title">
+                                <span>${icon}</span>
+                                <span>${title}</span>
+                            </div>
+                            <div class="protocol-date">${formatDate(protocol.date)} ${protocol.time}</div>
+                            <div>${details}</div>
+                        </div>
+                        <div class="protocol-actions">
+                            <button class="btn-secondary view-protocol" data-id="${protocol.timestamp}">Просмотр</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Добавляем обработчики для кнопок просмотра
+            document.querySelectorAll('.view-protocol').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewProtocol(id);
+                });
+            });
+        }
+        
+        function getConditionText(condition) {
+            const conditions = {
+                'stable': 'Стабильное',
+                'serious': 'Тяжёлое',
+                'critical': 'Критическое',
+                'deceased': 'Летальный исход'
+            };
+            return conditions[condition] || condition;
+        }
+
+        // Функции для работы с историей
+        function initHistory() {
+            // Загрузка истории при открытии вкладки
+            document.querySelector('.tab[data-tab="history"]').addEventListener('click', function() {
+                loadHistory();
+            });
+            
+            // Поиск в истории
+            document.getElementById('history-search').addEventListener('input', function() {
+                loadHistory();
+            });
+            
+            // Фильтрация по типу
+            document.querySelectorAll('#history input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    loadHistory();
+                });
+            });
+            
+            // Очистка истории
+            document.getElementById('clear-history').addEventListener('click', function() {
+                if (confirm('Вы действительно хотите очистить всю историю протоколов?')) {
+                    localStorage.setItem('protocols', JSON.stringify([]));
+                    loadHistory();
+                    updateStats();
+                    loadRecentEvents();
+                    alert('История протоколов очищена!');
+                }
+            });
+        }
+        
+        function loadHistory() {
+            const protocols = JSON.parse(localStorage.getItem('protocols'));
+            const searchQuery = document.getElementById('history-search').value.toLowerCase();
+            const filterPolice = document.getElementById('filter-police').checked;
+            const filterMedical = document.getElementById('filter-medical').checked;
+            const filterFire = document.getElementById('filter-fire').checked;
+            
+            const filtered = protocols.filter(protocol => {
+                // Фильтрация по типу
+                if (protocol.type === 'police' && !filterPolice) return false;
+                if (protocol.type === 'medical' && !filterMedical) return false;
+                if (protocol.type === 'fire' && !filterFire) return false;
+                
+                // Поиск по запросу
+                if (searchQuery) {
+                    if (protocol.type === 'police') {
+                        return (
+                            protocol.driver.name.toLowerCase().includes(searchQuery) ||
+                            protocol.vehicle.plate.toLowerCase().includes(searchQuery) ||
+                            protocol.violation.code.toLowerCase().includes(searchQuery) ||
+                            protocol.location.toLowerCase().includes(searchQuery)
+                        );
+                    } else if (protocol.type === 'medical') {
+                        return (
+                            protocol.patient.name.toLowerCase().includes(searchQuery) ||
+                            protocol.callType.toLowerCase().includes(searchQuery) ||
+                            protocol.location.toLowerCase().includes(searchQuery)
+                        );
+                    } else if (protocol.type === 'fire') {
+                        return (
+                            protocol.callType.toLowerCase().includes(searchQuery) ||
+                            protocol.location.toLowerCase().includes(searchQuery) ||
+                            protocol.description.toLowerCase().includes(searchQuery)
+                        );
+                    }
+                }
+                
+                return true;
+            });
+            
+            displayHistory(filtered);
+        }
+        
+        function displayHistory(protocols) {
+            const container = document.getElementById('protocol-history');
+            
+            if (protocols.length === 0) {
+                container.innerHTML = '<p>Нет сохранённых протоколов</p>';
+                return;
+            }
+            
+            // Сортировка по времени (новые сначала)
+            protocols.sort((a, b) => b.timestamp - a.timestamp);
+            
+            let html = '';
+            protocols.forEach(protocol => {
+                let title, details, icon;
+                
+                if (protocol.type === 'police') {
+                    icon = '🚓';
+                    title = `Полицейский протокол: ${protocol.driver.name}`;
+                    details = `ТС: ${protocol.vehicle.plate}, ${protocol.location}`;
+                } else if (protocol.type === 'medical') {
+                    icon = '🚑';
+                    title = `Медицинский протокол: ${protocol.patient.name}`;
+                    details = `Состояние: ${getConditionText(protocol.patient.condition)}`;
+                } else if (protocol.type === 'fire') {
+                    icon = '🚒';
+                    title = `Пожарный протокол: ${protocol.callType}`;
+                    details = `Место: ${protocol.location}`;
+                }
+                
+                html += `
+                    <div class="protocol-card ${protocol.type}">
+                        <div class="protocol-info">
+                            <div class="protocol-title">
+                                <span>${icon}</span>
+                                <span>${title}</span>
+                            </div>
+                            <div class="protocol-date">${formatDate(protocol.date)} ${protocol.time}</div>
+                            <div>${details}</div>
+                        </div>
+                        <div class="protocol-actions">
+                            <button class="btn-secondary view-protocol" data-id="${protocol.timestamp}">Просмотр</button>
+                            <button class="btn-danger delete-protocol" data-id="${protocol.timestamp}">Удалить</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Добавляем обработчики для кнопок
+            document.querySelectorAll('.view-protocol').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewProtocol(id);
+                });
+            });
+            
+            document.querySelectorAll('.delete-protocol').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteProtocol(id);
+                });
+            });
+        }
+        
+        function deleteProtocol(id) {
+            if (confirm('Вы действительно хотите удалить этот протокол?')) {
+                let protocols = JSON.parse(localStorage.getItem('protocols'));
+                protocols = protocols.filter(p => p.timestamp != id);
+                localStorage.setItem('protocols', JSON.stringify(protocols));
+                
+                loadHistory();
+                updateStats();
+                loadRecentEvents();
+                
+                alert('Протокол удалён!');
+            }
+        }
+
+        // Функции для работы с протоколами
+        function saveProtocol(protocol) {
+            const protocols = JSON.parse(localStorage.getItem('protocols'));
+            protocols.push(protocol);
+            localStorage.setItem('protocols', JSON.stringify(protocols));
+        }
+        
+        function viewProtocol(id) {
+            const protocols = JSON.parse(localStorage.getItem('protocols'));
+            const protocol = protocols.find(p => p.timestamp == id);
+            
+            if (!protocol) {
+                alert('Протокол не найден!');
+                return;
+            }
+            
+            const modal = document.getElementById('protocol-modal');
+            const details = document.getElementById('protocol-details');
+            
+            let html = '';
+            
+            if (protocol.type === 'police') {
+                html = `
+                    <h3>Полицейский протокол</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата/Время:</div>
+                        <div class="detail-value">${formatDate(protocol.date)} ${protocol.time}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Место:</div>
+                        <div class="detail-value">${protocol.location}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Юнит:</div>
+                        <div class="detail-value">${protocol.unit}</div>
+                    </div>
+                    
+                    <h4>Причина остановки</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">Причины:</div>
+                        <div class="detail-value">
+                            ${protocol.reasons.speed ? 'Превышение скорости, ' : ''}
+                            ${protocol.reasons.aggressive ? 'Агрессивное вождение, ' : ''}
+                            ${protocol.reasons.noStop ? 'Не остановка по требованию, ' : ''}
+                            ${protocol.reasons.noSeatbelt ? 'Отсутствие ремня безопасности, ' : ''}
+                            ${protocol.reasons.noLicense ? 'Отсутствие прав, ' : ''}
+                            ${protocol.reasons.noInsurance ? 'Отсутствие страховки, ' : ''}
+                            ${protocol.reasons.dui ? 'Вождение в нетрезвом виде, ' : ''}
+                            ${protocol.reasons.suspicious ? 'Подозрительное поведение, ' : ''}
+                            ${protocol.reasons.vehicleDefect ? 'Неисправность ТС, ' : ''}
+                            ${protocol.reasons.other ? 'Другое' : ''}
+                        </div>
+                    </div>
+                    
+                    <h4>Данные водителя</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">ФИО:</div>
+                        <div class="detail-value">${protocol.driver.name}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата рождения:</div>
+                        <div class="detail-value">${formatDate(protocol.driver.birthdate)}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Водительское удостоверение:</div>
+                        <div class="detail-value">${protocol.driver.license} (${protocol.driver.licenseStatus})</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Адрес:</div>
+                        <div class="detail-value">${protocol.driver.address}</div>
+                    </div>
+                    
+                    <h4>Данные ТС</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">Марка/Модель:</div>
+                        <div class="detail-value">${protocol.vehicle.model}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Цвет:</div>
+                        <div class="detail-value">${protocol.vehicle.color}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Гос. номер:</div>
+                        <div class="detail-value">${protocol.vehicle.plate}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Регистрация:</div>
+                        <div class="detail-value">${protocol.vehicle.registration}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Страховка:</div>
+                        <div class="detail-value">${protocol.vehicle.insurance}</div>
+                    </div>
+                    
+                    <h4>Нарушение</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">Нарушенные статьи:</div>
+                        <div class="detail-value">${protocol.violation.code}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Описание:</div>
+                        <div class="detail-value">${protocol.violation.description}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Заметки офицера:</div>
+                        <div class="detail-value">${protocol.violation.officerNotes || 'Нет'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Фото/видеофиксация:</div>
+                        <div class="detail-value">${protocol.violation.photoEvidence ? 'Да' : 'Нет'}</div>
+                    </div>
+                    
+                    <h4>Принятые меры</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">Штраф:</div>
+                        <div class="detail-value">
+                            ${protocol.actions.fine.given ? `Да (${protocol.actions.fine.amount}$)` : 'Нет'}
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Предупреждение:</div>
+                        <div class="detail-value">
+                            ${protocol.actions.warning.verbal ? 'Устное, ' : ''}
+                            ${protocol.actions.warning.written ? 'Письменное' : ''}
+                            ${!protocol.actions.warning.verbal && !protocol.actions.warning.written ? 'Нет' : ''}
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Арест:</div>
+                        <div class="detail-value">
+                            ${protocol.actions.arrest.given ? `Да (${protocol.actions.arrest.charge})` : 'Нет'}
+                        </div>
+                    </div>
+                    <div class="detail-row">
+             <div class="detail-label">Эвакуация ТС:</div>
+                        <div class="detail-value">
+                            ${protocol.actions.tow.given ? `Да (${protocol.actions.tow.service})` : 'Нет'}
+                        </div>
+                    </div>
+                `;
+            } else if (protocol.type === 'medical') {
+                html = `
+                    <h3>Медицинский протокол</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата/Время:</div>
+                        <div class="detail-value">${formatDate(protocol.date)} ${protocol.time}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Место:</div>
+                        <div class="detail-value">${protocol.location}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Юнит:</div>
+                        <div class="detail-value">${protocol.unit}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Тип вызова:</div>
+                        <div class="detail-value">${protocol.callType}</div>
+                    </div>
+                    
+                    <h4>Данные пациента</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">ФИО:</div>
+                        <div class="detail-value">${protocol.patient.name}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата рождения:</div>
+                        <div class="detail-value">${formatDate(protocol.patient.birthdate)}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Адрес:</div>
+                        <div class="detail-value">${protocol.patient.address || 'Не указан'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Состояние:</div>
+                        <div class="detail-value">${getConditionText(protocol.patient.condition)}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Диагноз:</div>
+                        <div class="detail-value">${protocol.patient.diagnosis}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Проведённые мероприятия:</div>
+                        <div class="detail-value">${protocol.patient.procedures}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Использованные медикаменты:</div>
+                        <div class="detail-value">${protocol.patient.drugs || 'Не указаны'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Госпитализация:</div>
+                        <div class="detail-value">
+                            ${protocol.hospitalization.given ? `Да (${protocol.hospitalization.hospital})` : 'Нет'}
+                        </div>
+                    </div>
+                `;
+            } else if (protocol.type === 'fire') {
+                html = `
+                    <h3>Пожарный протокол</h3>
+                    <div class="detail-row">
+                        <div class="detail-label">Дата/Время:</div>
+                        <div class="detail-value">${formatDate(protocol.date)} ${protocol.time}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Место:</div>
+                        <div class="detail-value">${protocol.location}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Юнит:</div>
+                        <div class="detail-value">${protocol.unit}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Тип вызова:</div>
+                        <div class="detail-value">${protocol.callType}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Причина возгорания:</div>
+                        <div class="detail-value">${protocol.cause || 'Не установлена'}</div>
+                    </div>
+                    
+                    <h4>Детали вызова</h4>
+                    <div class="detail-row">
+                        <div class="detail-label">Описание:</div>
+                        <div class="detail-value">${protocol.description}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Принятые меры:</div>
+                        <div class="detail-value">${protocol.actions}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Использованная техника:</div>
+                        <div class="detail-value">${protocol.equipment}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Пострадавшие:</div>
+                        <div class="detail-value">
+                            ${protocol.casualties.present ? `Да (${protocol.casualties.count})` : 'Нет'}
+                        </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Погибшие:</div>
+                        <div class="detail-value">
+                            ${protocol.fatalities.present ? `Да (${protocol.fatalities.count})` : 'Нет'}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            details.innerHTML = html;
+            modal.style.display = 'flex';
+            
+            // Закрытие модального окна
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // Закрытие при клике вне окна
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        // Вспомогательные функции
+        function formatDate(dateString) {
+            if (!dateString) return 'Не указана';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('ru-RU');
+        }
+        
+        function updateStats() {
+            const protocols = JSON.parse(localStorage.getItem('protocols'));
+            
+            // Общее количество протоколов
+            document.getElementById('total-protocols').textContent = protocols.length;
+            
+            // Количество протоколов за сегодня
+            const today = new Date().toISOString().split('T')[0];
+            const todayCount = protocols.filter(p => p.date === today).length;
+            document.getElementById('today-protocols').textContent = todayCount;
+            
+            // Количество по типам
+            const policeCount = protocols.filter(p => p.type === 'police').length;
+            const medicalCount = protocols.filter(p => p.type === 'medical').length;
+            const fireCount = protocols.filter(p => p.type === 'fire').length;
+            
+            document.getElementById('police-stats').textContent = policeCount;
+            document.getElementById('medical-stats').textContent = medicalCount;
+            document.getElementById('fire-stats').textContent = fireCount;
+            
+            // Активные вызовы (протоколы за сегодня)
+            document.getElementById('active-calls').textContent = todayCount;
+        }
+        
+        function loadRecentEvents() {
+            const protocols = JSON.parse(localStorage.getItem('protocols'));
+            const container = document.getElementById('recent-events');
+            
+            if (protocols.length === 0) {
+                container.innerHTML = '<p>Нет последних событий</p>';
+                return;
+            }
+            
+            // Сортировка по времени (новые сначала)
+            const sorted = [...protocols].sort((a, b) => b.timestamp - a.timestamp);
+            const recent = sorted.slice(0, 5);
+            
+            let html = '';
+            recent.forEach(protocol => {
+                let title, details, icon;
+                
+                if (protocol.type === 'police') {
+                    icon = '🚓';
+                    title = `Полицейский протокол: ${protocol.driver.name}`;
+                    details = `ТС: ${protocol.vehicle.plate}, ${protocol.location}`;
+                } else if (protocol.type === 'medical') {
+                    icon = '🚑';
+                    title = `Медицинский протокол: ${protocol.patient.name}`;
+                    details = `Состояние: ${getConditionText(protocol.patient.condition)}`;
+                } else if (protocol.type === 'fire') {
+                    icon = '🚒';
+                    title = `Пожарный протокол: ${protocol.callType}`;
+                    details = `Место: ${protocol.location}`;
+                }
+                
+                html += `
+                    <div class="protocol-card ${protocol.type}">
+                        <div class="protocol-info">
+                            <div class="protocol-title">
+                                <span>${icon}</span>
+                                <span>${title}</span>
+                            </div>
+                            <div class="protocol-date">${formatDate(protocol.date)} ${protocol.time}</div>
+                            <div>${details}</div>
+                        </div>
+                        <div class="protocol-actions">
+                            <button class="btn-secondary view-protocol" data-id="${protocol.timestamp}">Просмотр</button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+            
+            // Добавляем обработчики для кнопок просмотра
+            document.querySelectorAll('.view-protocol').forEach(button => {
+                button.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    viewProtocol(id);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
