@@ -461,34 +461,6 @@
                             <label for="police-reason-aggressive">Агрессивное вождение</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-no-stop">
-                            <label for="police-reason-no-stop">Не остановка по требованию</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-no-seatbelt">
-                            <label for="police-reason-no-seatbelt">Отсутствие ремня безопасности</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-no-license">
-                            <label for="police-reason-no-license">Отсутствие прав</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-no-insurance">
-                            <label for="police-reason-no-insurance">Отсутствие страховки</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-dui">
-                            <label for="police-reason-dui">Вождение в нетрезвом виде</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-suspicious">
-                            <label for="police-reason-suspicious">Подозрительное поведение</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="police-reason-vehicle-defect">
-                            <label for="police-reason-vehicle-defect">Неисправность ТС</label>
-                        </div>
-                        <div class="checkbox-item">
                             <input type="checkbox" id="police-reason-other">
                             <label for="police-reason-other">Другое</label>
                         </div>
@@ -616,7 +588,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                  <label>Эвакуация ТС</label>
+                    <label>Эвакуация ТС</label>
                     <div class="checkbox-group">
                         <div class="checkbox-item">
                             <input type="checkbox" id="tow-given">
@@ -649,28 +621,23 @@
                     <input type="time" id="medical-time" required>
                 </div>
                 <div class="form-group">
-                    <label>Место вызова</label>
+                    <label>Место вызова (улица/район/GPS)</label>
                     <input type="text" id="medical-location" required>
                 </div>
                 <div class="form-group">
                     <label>Позывной / Юнит</label>
                     <input type="text" id="medical-unit" required>
                 </div>
-                <div class="form-group">
+                
+                <!-- Дополнительные медицинские данные -->
+      <div class="form-group">
                     <label>Тип вызова</label>
                     <select id="medical-call-type" required>
                         <option value="accident">ДТП</option>
-                        <option value="gunshot">Огнестрельное ранение</option>
-                        <option value="cut">Колото-резаное ранение</option>
-                        <option value="fracture">Перелом</option>
-                        <option value="burn">Ожог</option>
-                        <option value="heart-attack">Сердечный приступ</option>
-                        <option value="stroke">Инсульт</option>
-                        <option value="poisoning">Отравление</option>
-                        <option value="drowning">Утопление</option>
-                        <option value="allergy">Аллергическая реакция</option>
-                        <option value="respiratory">Дыхательная недостаточность</option>
-                        <option value="psych">Псих. расстройство</option>
+                        <option value="injury">Травма</option>
+                        <option value="illness">Заболевание</option>
+                        <option value="psych">Психическое расстройство</option>
+                        <option value="overdose">Передозировка</option>
                         <option value="other">Другое</option>
                     </select>
                 </div>
@@ -685,8 +652,42 @@
                     <input type="date" id="patient-birthdate" required>
                 </div>
                 <div class="form-group">
+                    <label>Пол</label>
+                    <select id="patient-gender">
+                        <option value="male">Мужской</option>
+                        <option value="female">Женский</option>
+                        <option value="other">Другой</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>Адрес проживания</label>
                     <input type="text" id="patient-address">
+                </div>
+                <div class="form-group">
+                    <label>Телефон</label>
+                    <input type="tel" id="patient-phone">
+                </div>
+                <div class="form-group">
+                    <label>Группа крови</label>
+                    <select id="patient-blood-type">
+                        <option value="unknown">Неизвестна</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Аллергии</label>
+                    <textarea id="patient-allergies"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Хронические заболевания</label>
+                    <textarea id="patient-chronic-diseases"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Состояние пациента</label>
@@ -698,12 +699,20 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Диагноз</label>
+                    <label>Симптомы</label>
+                    <textarea id="patient-symptoms" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Предварительный диагноз</label>
                     <textarea id="patient-diagnosis" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>Проведённые мероприятия</label>
                     <textarea id="medical-procedures" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Использованные медикаменты</label>
+                    <textarea id="medical-drugs"></textarea>
                 </div>
                 <div class="form-group">
                     <label>Госпитализация</label>
@@ -717,10 +726,6 @@
                             <input type="text" id="hospital-name" style="width: 200px;" disabled>
                         </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label>Использованные медикаменты</label>
-                    <textarea id="medical-drugs"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -743,7 +748,7 @@
                     <input type="time" id="fire-time" required>
                 </div>
                 <div class="form-group">
-                    <label>Место вызова</label>
+                    <label>Место вызова (улица/район/GPS)</label>
                     <input type="text" id="fire-location" required>
                 </div>
                 <div class="form-group">
@@ -760,8 +765,21 @@
                         <option value="explosion">Взрыв</option>
                         <option value="gas-leak">Утечка газа</option>
                         <option value="hazmat">Опасные материалы</option>
-                        <option value="rescue">Спасение</option>
+                        <option value="rescue">Спасательная операция</option>
                         <option value="flood">Наводнение</option>
+                        <option value="other">Другое</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Причина возгорания</label>
+                    <select id="fire-cause">
+                        <option value="unknown">Не установлена</option>
+                        <option value="electrical">Электричество</option>
+                        <option value="gas">Газ</option>
+                        <option value="arson">Поджог</option>
+                        <option value="smoking">Курение</option>
+                        <option value="chemical">Химическая реакция</option>
+                        <option value="natural">Природные причины</option>
                         <option value="other">Другое</option>
                     </select>
                 </div>
@@ -806,17 +824,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Причина возгорания</label>
-                    <select id="fire-cause">
-                        <option value="unknown">Не установлена</option>
-                        <option value="electrical">Электричество</option>
-                        <option value="gas">Газ</option>
-                        <option value="arson">Поджог</option>
-                        <option value="smoking">Курение</option>
-                        <option value="chemical">Химическая реакция</option>
-                        <option value="natural">Природные причины</option>
-                        <option value="other">Другое</option>
-                    </select>
+                    <label>Ущерб (примерная оценка)</label>
+                    <input type="text" id="fire-damage">
+                </div>
+                <div class="form-group">
+                    <label>Дополнительные заметки</label>
+                    <textarea id="fire-notes"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -953,13 +966,6 @@
                     reasons: {
                         speed: document.getElementById('police-reason-speed').checked,
                         aggressive: document.getElementById('police-reason-aggressive').checked,
-                        noStop: document.getElementById('police-reason-no-stop').checked,
-                        noSeatbelt: document.getElementById('police-reason-no-seatbelt').checked,
-                        noLicense: document.getElementById('police-reason-no-license').checked,
-                        noInsurance: document.getElementById('police-reason-no-insurance').checked,
-                        dui: document.getElementById('police-reason-dui').checked,
-                        suspicious: document.getElementById('police-reason-suspicious').checked,
-                        vehicleDefect: document.getElementById('police-reason-vehicle-defect').checked,
                         other: document.getElementById('police-reason-other').checked
                     },
                     driver: {
@@ -1036,13 +1042,77 @@
                     type: 'medical',
                     date: document.getElementById('medical-date').value,
                     time: document.getElementById('medical-time').value,
-                  location: document.getElementById('fire-location').value,
+                    location: document.getElementById('medical-location').value,
+                    unit: document.getElementById('medical-unit').value,
+                    callType: document.getElementById('medical-call-type').value,
+                    patient: {
+                        name: document.getElementById('patient-name').value,
+                        birthdate: document.getElementById('patient-birthdate').value,
+                        gender: document.getElementById('patient-gender').value,
+                        address: document.getElementById('patient-address').value,
+                        phone: document.getElementById('patient-phone').value,
+                        bloodType: document.getElementById('patient-blood-type').value,
+                        allergies: document.getElementById('patient-allergies').value,
+                        chronicDiseases: document.getElementById('patient-chronic-diseases').value,
+                        condition: document.getElementById('patient-condition').value,
+                        symptoms: document.getElementById('patient-symptoms').value,
+                        diagnosis: document.getElementById('patient-diagnosis').value,
+                        procedures: document.getElementById('medical-procedures').value,
+                        drugs: document.getElementById('medical-drugs').value
+                    },
+                    hospitalization: {
+                        given: document.getElementById('hospitalization-given').checked,
+                        hospital: document.getElementById('hospital-name').value
+                    },
+                    timestamp: new Date().getTime()
+                };
+                
+                // Сохранение протокола
+                saveProtocol(protocol);
+                
+                // Очистка формы
+                form.reset();
+                
+                // Обновление статистики
+                updateStats();
+                loadRecentEvents();
+                
+                // Показ уведомления
+                alert('Медицинский протокол успешно сохранён!');
+            });
+        }
+
+        // Функции для пожарной формы
+        function initFireForm() {
+            const form = document.getElementById('fire-form');
+            
+            // Включение/отключение полей в зависимости от чекбоксов
+            document.getElementById('fire-casualties').addEventListener('change', function() {
+                document.getElementById('casualties-count').disabled = !this.checked;
+            });
+            
+            document.getElementById('fire-fatalities').addEventListener('change', function() {
+                document.getElementById('fatalities-count').disabled = !this.checked;
+            });
+            
+            // Обработка отправки формы
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Сбор данных формы
+                const protocol = {
+                    type: 'fire',
+                    date: document.getElementById('fire-date').value,
+                    time: document.getElementById('fire-time').value,
+                    location: document.getElementById('fire-location').value,
                     unit: document.getElementById('fire-unit').value,
                     callType: document.getElementById('fire-call-type').value,
+                    cause: document.getElementById('fire-cause').value,
                     description: document.getElementById('fire-description').value,
                     actions: document.getElementById('fire-actions').value,
                     equipment: document.getElementById('fire-equipment').value,
-                    cause: document.getElementById('fire-cause').value,
+                    damage: document.getElementById('fire-damage').value,
+                    notes: document.getElementById('fire-notes').value,
                     casualties: {
                         present: document.getElementById('fire-casualties').checked,
                         count: document.getElementById('casualties-count').value
@@ -1360,13 +1430,6 @@
                         <div class="detail-value">
                             ${protocol.reasons.speed ? 'Превышение скорости, ' : ''}
                             ${protocol.reasons.aggressive ? 'Агрессивное вождение, ' : ''}
-                            ${protocol.reasons.noStop ? 'Не остановка по требованию, ' : ''}
-                            ${protocol.reasons.noSeatbelt ? 'Отсутствие ремня безопасности, ' : ''}
-                            ${protocol.reasons.noLicense ? 'Отсутствие прав, ' : ''}
-                            ${protocol.reasons.noInsurance ? 'Отсутствие страховки, ' : ''}
-                            ${protocol.reasons.dui ? 'Вождение в нетрезвом виде, ' : ''}
-                            ${protocol.reasons.suspicious ? 'Подозрительное поведение, ' : ''}
-                            ${protocol.reasons.vehicleDefect ? 'Неисправность ТС, ' : ''}
                             ${protocol.reasons.other ? 'Другое' : ''}
                         </div>
                     </div>
@@ -1451,7 +1514,7 @@
                         </div>
                     </div>
                     <div class="detail-row">
-             <div class="detail-label">Эвакуация ТС:</div>
+                        <div class="detail-label">Эвакуация ТС:</div>
                         <div class="detail-value">
                             ${protocol.actions.tow.given ? `Да (${protocol.actions.tow.service})` : 'Нет'}
                         </div>
@@ -1487,12 +1550,36 @@
                         <div class="detail-value">${formatDate(protocol.patient.birthdate)}</div>
                     </div>
                     <div class="detail-row">
+                        <div class="detail-label">Пол:</div>
+                        <div class="detail-value">${protocol.patient.gender === 'male' ? 'Мужской' : protocol.patient.gender === 'female' ? 'Женский' : 'Другой'}</div>
+                    </div>
+                    <div class="detail-row">
                         <div class="detail-label">Адрес:</div>
                         <div class="detail-value">${protocol.patient.address || 'Не указан'}</div>
                     </div>
                     <div class="detail-row">
+                        <div class="detail-label">Телефон:</div>
+                        <div class="detail-value">${protocol.patient.phone || 'Не указан'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Группа крови:</div>
+                        <div class="detail-value">${protocol.patient.bloodType || 'Неизвестна'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Аллергии:</div>
+                        <div class="detail-value">${protocol.patient.allergies || 'Нет'}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Хронические заболевания:</div>
+                        <div class="detail-value">${protocol.patient.chronicDiseases || 'Нет'}</div>
+                    </div>
+                    <div class="detail-row">
                         <div class="detail-label">Состояние:</div>
                         <div class="detail-value">${getConditionText(protocol.patient.condition)}</div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Симптомы:</div>
+                        <div class="detail-value">${protocol.patient.symptoms}</div>
                     </div>
                     <div class="detail-row">
                         <div class="detail-label">Диагноз:</div>
@@ -1551,6 +1638,10 @@
                         <div class="detail-value">${protocol.equipment}</div>
                     </div>
                     <div class="detail-row">
+                        <div class="detail-label">Ущерб:</div>
+                        <div class="detail-value">${protocol.damage || 'Не оценен'}</div>
+                    </div>
+                    <div class="detail-row">
                         <div class="detail-label">Пострадавшие:</div>
                         <div class="detail-value">
                             ${protocol.casualties.present ? `Да (${protocol.casualties.count})` : 'Нет'}
@@ -1561,6 +1652,10 @@
                         <div class="detail-value">
                             ${protocol.fatalities.present ? `Да (${protocol.fatalities.count})` : 'Нет'}
                         </div>
+                    </div>
+                    <div class="detail-row">
+                        <div class="detail-label">Дополнительные заметки:</div>
+                        <div class="detail-value">${protocol.notes || 'Нет'}</div>
                     </div>
                 `;
             }
